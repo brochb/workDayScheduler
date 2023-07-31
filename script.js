@@ -10,8 +10,73 @@ $(document).ready(function(){
     updateCurrentDate();
     setInterval(updateCurrentDate, 1000);
 
-    
-  });
+    var currentHour = new Date().getHours();
+
+    // // Loop through each time-block div
+    // $(".time-block").each(function () {
+    //   var blockHour = parseInt($(this).attr("id"));
+
+    //   // Compare the block hour with the current hour
+    //   if (blockHour < currentHour) {
+    //     // Add the "past" class
+    //     $(this).addClass("past");
+    //   } else if (blockHour === currentHour) {
+    //     // Add the "present" class
+    //     $(this).addClass("present");
+    //   } else {
+    //     // Add the "future" class
+    //     $(this).addClass("future");
+    //   }
+    // });
+
+  function createSchedule() {
+    var container = document.getElementById("schedule-container");
+
+    for (var hour = 9; hour <= 17; hour++) {
+      var div = document.createElement("div");
+      div.id = "hour-" + hour;
+      div.className = "row time-block";
+
+      var hourDiv = document.createElement("div");
+      hourDiv.className = "col-2 col-md-1 hour text-center py-3";
+      hourDiv.textContent = hour + "AM";
+      div.appendChild(hourDiv);
+
+      var textarea = document.createElement("textarea");
+      textarea.className = "col-8 col-md-10 description";
+      textarea.rows = 3;
+      textarea.style.backgroundColor = getBackgroundColor(hour); // Set inline style
+      div.appendChild(textarea);
+
+      var button = document.createElement("button");
+      button.className = "btn saveBtn col-2 col-md-1";
+      button.setAttribute("aria-label", "save");
+      var icon = document.createElement("i");
+      icon.className = "fas fa-save";
+      icon.setAttribute("aria-hidden", "true");
+      button.appendChild(icon);
+      div.appendChild(button);
+
+      container.appendChild(div);
+    }
+  }
+
+  function getBackgroundColor(hour) {
+    // Determine the appropriate background color based on the hour
+    var currentHour = new Date().getHours();
+    if (hour < currentHour) {
+      return "red"; // Past hours
+    } else if (hour === currentHour) {
+      return ""; // Current hour
+    } else {
+      return "green"; // Future hours
+    }
+  }
+
+  // Call the function to create the schedule
+  createSchedule();
+
+});
 
 
 
