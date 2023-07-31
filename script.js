@@ -1,33 +1,11 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(document).ready(function(){
+$(document).ready(function () {
 
-    function updateCurrentDate() {
-      const currentDate = dayjs().format("MMMM DD, dddd");
-      $("#currentDate").text(currentDate);
-    }
-    updateCurrentDate();
-    setInterval(updateCurrentDate, 1000);
-
-    var currentHour = new Date().getHours();
-
-    // // Loop through each time-block div
-    // $(".time-block").each(function () {
-    //   var blockHour = parseInt($(this).attr("id"));
-
-    //   // Compare the block hour with the current hour
-    //   if (blockHour < currentHour) {
-    //     // Add the "past" class
-    //     $(this).addClass("past");
-    //   } else if (blockHour === currentHour) {
-    //     // Add the "present" class
-    //     $(this).addClass("present");
-    //   } else {
-    //     // Add the "future" class
-    //     $(this).addClass("future");
-    //   }
-    // });
+  function updateCurrentDate() {
+    const currentDate = dayjs().format("MMMM DD, dddd");
+    $("#currentDate").text(currentDate);
+  }
+  updateCurrentDate();
+  setInterval(updateCurrentDate, 1000);
 
   function createSchedule() {
     var container = document.getElementById("schedule-container");
@@ -39,13 +17,14 @@ $(document).ready(function(){
 
       var hourDiv = document.createElement("div");
       hourDiv.className = "col-2 col-md-1 hour text-center py-3";
-      hourDiv.textContent = hour + "AM";
+      hourDiv.textContent = (hour > 12 ? hour - 12 : hour) +
+        ((hour >= 12 && hour < 24) ? "PM" : "AM");
       div.appendChild(hourDiv);
 
       var textarea = document.createElement("textarea");
       textarea.className = "col-8 col-md-10 description";
       textarea.rows = 3;
-      textarea.style.backgroundColor = getBackgroundColor(hour); // Set inline style
+      textarea.style.backgroundColor = getBackgroundColor(hour);
       div.appendChild(textarea);
 
       var button = document.createElement("button");
@@ -62,18 +41,15 @@ $(document).ready(function(){
   }
 
   function getBackgroundColor(hour) {
-    // Determine the appropriate background color based on the hour
     var currentHour = new Date().getHours();
     if (hour < currentHour) {
-      return "red"; // Past hours
+      return "grey";
     } else if (hour === currentHour) {
-      return ""; // Current hour
+      return "red";
     } else {
-      return "green"; // Future hours
+      return "green";
     }
   }
-
-  // Call the function to create the schedule
   createSchedule();
 
 });
@@ -86,7 +62,7 @@ $(document).ready(function(){
 
 
 
-   
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
