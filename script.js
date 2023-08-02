@@ -58,7 +58,8 @@ $(document).ready(function () {
             localStorage.setItem("hour-" + hour, userInput);
             console.log("User input saved for hour", hour, ":", userInput);
           } else {
-            console.log("Invalid input. Please enter some text.");
+            localStorage.removeItem("hour-" + hour, userInput)
+            console.log("If you previously had a Todo item here, it has been cleared, otherwise please input an item!");
           }
         }
       });
@@ -77,4 +78,5 @@ $(document).ready(function () {
   }
 
   createSchedule();
+
 });
