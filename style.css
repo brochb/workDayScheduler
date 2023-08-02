@@ -53,6 +53,14 @@ textarea {
   color: white;
 }
 
+.delBtn {
+  border-left: 1px solid black;
+  broder-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: red;
+  color: white;
+}
+
 .saveBtn i:hover {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
