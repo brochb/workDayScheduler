@@ -27,11 +27,13 @@ $(document).ready(function () {
       textarea.className = "col-8 col-md-10 toDo";
       textarea.rows = 3;
       textarea.style.backgroundColor = getBackgroundColor(hour);
+      textarea.setAttribute("data-hour", hour);
       div.appendChild(textarea);
 
       var button = document.createElement("button");
       button.className = "btn saveBtn col-2 col-md-1";
       button.setAttribute("aria-label", "save");
+      button.setAttribute("data-hour", hour)
 
       var icon = document.createElement("i");
       icon.className = "fas fa-save";
@@ -40,37 +42,37 @@ $(document).ready(function () {
       button.appendChild(icon);
       div.appendChild(button);
       container.appendChild(div);
-      
+
       container.addEventListener("click", function (event) {
         if (event.target.classList.contains("saveBtn")) {
-          var textarea = event.target.parentElement.querySelector("textarea");
+          var hour = event.target.getAttribute("data-hour");
+          var textarea = document.querySelector("textarea[data-hour='" + hour + "']");
           var userInput = textarea.value.trim();
 
           if (userInput !== "") {
-            localStorage.setItem("userInput", userInput);
-            console.log("User input saved to localStorage:", userInput);
+            localStorage.setItem("hour-" + hour, userInput);
+            console.log("User input saved for hour", hour, ":", userInput);
           } else {
             console.log("Invalid input. Please enter some text.");
           }
         }
       });
-
     }
   }
 
   function getBackgroundColor(hour) {
     var currentHour = new Date().getHours();
     if (hour < currentHour) {
-      return "grey";
+      return "beige";
     } else if (hour === currentHour) {
       return "red";
     } else {
       return "green";
     }
   }
-  
+
   createSchedule();
-  
+
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
